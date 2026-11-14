@@ -1,0 +1,25 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+.env.*
+**/.env
+**/.env.*
+
+# Build files
+dist/
+**/dist/
+
+# Vercel
+.vercel/
+
+# Logs
+*.log
+
+# Allow example environment files
+!.env.example
+!**/.env.example
+
+**/generated-resume.html
