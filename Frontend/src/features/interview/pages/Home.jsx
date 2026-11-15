@@ -87,41 +87,22 @@ const Home = () => {
     return (
         <div className='home-page'>
             {/* Top Navigation Bar */}
-            <div style={{
-                width: '100%',
-                maxWidth: '900px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '0.75rem 1rem',
-                background: '#161b22',
-                borderRadius: '0.75rem',
-                border: '1px solid #2a3348'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600 }}>
-                    <span style={{ color: '#ff2d78', fontSize: '1.2rem' }}>✦</span>
-                    <span>Interview & Resume AI</span>
+            <header className='top-nav'>
+                <div className='top-nav__brand'>
+                    <span className='brand-icon'>✦</span>
+                    <span className='brand-text'>InterviewAI &amp; Resume Builder</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span style={{ color: '#7d8590', fontSize: '0.9rem' }}>
-                        Hello, <strong style={{ color: '#e6edf3' }}>{user?.username || 'Candidate'}</strong>
-                    </span>
-                    <button
-                        onClick={handleLogout}
-                        style={{
-                            background: '#21262d',
-                            color: '#e6edf3',
-                            border: '1px solid #30363d',
-                            padding: '0.4rem 0.8rem',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            fontSize: '0.85rem'
-                        }}
-                    >
+                <div className='top-nav__right'>
+                    <div className='top-nav__user'>
+                        <span className='user-avatar'>{user?.username?.[0] || 'U'}</span>
+                        <span>Hello, <strong>{user?.username || 'Candidate'}</strong></span>
+                    </div>
+                    <button onClick={handleLogout} className='top-nav__logout-btn'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                         Logout
                     </button>
                 </div>
-            </div>
+            </header>
 
             {/* Page Header */}
             <header className='page-header'>
