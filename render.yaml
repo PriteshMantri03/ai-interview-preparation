@@ -1,10 +1,9 @@
 services:
   - type: web
     name: yt-genai-api
-    runtime: node
-    rootDir: Backend
-    buildCommand: npm install
-    startCommand: npm start
+    runtime: docker
+    dockerContext: Backend
+    dockerfilePath: Backend/Dockerfile
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV

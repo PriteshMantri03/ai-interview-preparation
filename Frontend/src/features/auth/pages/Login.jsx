@@ -1,32 +1,50 @@
-import React,{useState} from 'react'
-import { useNavigate, Link } from 'react-router'
-import "../auth.form.scss"
-import { useAuth } from '../hooks/useAuth'
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router';
+import "../auth.form.scss";
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
+    const { user, loading, handleLogin } = useAuth();
+    const navigate = useNavigate();
 
-    const { loading, handleLogin } = useAuth()
-    const navigate = useNavigate()
+    const [ email, setEmail ] = useState("");
+    const [ password, setPassword ] = useState("");
+    const [ error, setError ] = useState("");
+    const [ isSubmitting, setIsSubmitting ] = useState(false);
 
-    const [ email, setEmail ] = useState("")
-    const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
+    useEffect(() => {
+        if (!loading && user) {
+            navigate("/");
+        }
+    }, [ user, loading, navigate ]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError("")
-        try {
-            await handleLogin({ email, password })
-            navigate('/')
-        } catch (err) {
-            setError(err.response?.data?.message || "Login failed. Check your connection and try again.")
+        e.preventDefault();
+        setError("");
+
+        if (!email.trim() || !password) {
+            setError("Please enter your email and password.");
+            return;
         }
-    }
 
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
-    }
+        setIsSubmitting(true);
+        try {
+            await handleLogin({ email, password });
+            navigate("/");
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed. Check your connection and try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
+    if (loading) {
+        return (
+            <main>
+                <h1>Loading...</h1>
+            </main>
+        );
+    }
 
     return (
         <main>
@@ -37,21 +55,35 @@ const Login = () => {
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
                         <input
-                            onChange={(e) => { setEmail(e.target.value) }}
-                            type="email" id="email" name='email' placeholder='Enter email address' />
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter email address"
+                            required
+                        />
                     </div>
                     <div className="input-group">
                         <label htmlFor="password">Password</label>
                         <input
-                            onChange={(e) => { setPassword(e.target.value) }}
-                            type="password" id="password" name='password' placeholder='Enter password' />
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            required
+                        />
                     </div>
-                    <button className='button primary-button' >Login</button>
+                    <button className="button primary-button" disabled={isSubmitting}>
+                        {isSubmitting ? "Logging in..." : "Login"}
+                    </button>
                 </form>
-                <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
+                <p>Don't have an account? <Link to="/register">Register</Link></p>
             </div>
         </main>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
