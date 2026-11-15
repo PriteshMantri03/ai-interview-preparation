@@ -1285,17 +1285,6 @@ Follow the requested HTML and CSS structure strictly.
         throw new Error("Groq did not return a complete HTML document");
     }
 
-    // Save generated HTML for debugging
-const fs = require("fs");
-
-fs.writeFileSync(
-    "generated-resume.html",
-    htmlContent,
-    "utf8"
-);
-
-console.log("Generated HTML saved successfully!");
-
     const pdfBuffer = await generatePdfFromHtml(htmlContent);
 
     return pdfBuffer;
